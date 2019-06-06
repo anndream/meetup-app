@@ -82,7 +82,6 @@
   </div>
   {#if editMode === 'add'}
     <EditMeetup on:save={addMeetup} on:cancel={cancelEdit} />
-  {:else}
-    <MeetupGrid {meetups} on:togglefavorite={toggleFavorite} />
   {/if}
+  <MeetupGrid {meetups} on:togglefavorite={toggleFavorite} />
 </main>
