@@ -96,9 +96,9 @@
     <Button type="button" caption="Show Details" />
     <Button
       mode="outline"
-      color={!isFav ? null : 'success'}
+      color={isFav ? null : 'success'}
       type="button"
-      caption={!isFav ? 'Unfavorite' : 'Favorite'}
+      caption={isFav ? 'Unfavorite' : 'Favorite'}
       on:click={() => dispatch('togglefavorite', id)} />
   </footer>
 </article>
