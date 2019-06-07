@@ -59,21 +59,42 @@
 
     // meetups.push(newMeetup); // DOES NOT WORK!
     if (id) {
-      meetups.updateMeetup(id, meetupData);
-    } else {
-      fetch('https://meetups-a2909.firebaseio.com/meetups.json', {
-        method: 'POST',
-        body: JSON.stringify({...meetupData, isFavorite: false}),
-        headers: {'Content-Type': 'application/json'}
-      }).then(res => {
-        if (!res.ok) {
-          throw new Error('Failed');
-        }
-        res.json();
-      }).then(data => {
-        meetups.addMeetup({...meetupData, isFavorite: false, id: data.name});
+      fetch(`https://meetups-a2909.firebaseio.com/meetups/${id}.json`, {
+        method: "PATCH",
+        body: JSON.stringify(meetupData),
+        headers: { "Content-Type": "application/json" }
       })
-      .catch(err => {color.log(err)});
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed");
+          }
+          meetups.updateMeetup(id, meetupData);
+        })
+        .catch(err => {
+          color.log(err);
+        });
+    } else {
+      fetch("https://meetups-a2909.firebaseio.com/meetups.json", {
+        method: "POST",
+        body: JSON.stringify({ ...meetupData, isFavorite: false }),
+        headers: { "Content-Type": "application/json" }
+      })
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed");
+          }
+          res.json();
+        })
+        .then(data => {
+          meetups.addMeetup({
+            ...meetupData,
+            isFavorite: false,
+            id: data.name
+          });
+        })
+        .catch(err => {
+          color.log(err);
+        });
     }
     dispatch("save");
   };
