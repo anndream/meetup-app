@@ -70,9 +70,7 @@
           }
           meetups.updateMeetup(id, meetupData);
         })
-        .catch(err => {
-          color.log(err);
-        });
+        .catch(err => console.log(err));
     } else {
       fetch("https://meetups-a2909.firebaseio.com/meetups.json", {
         method: "POST",
@@ -83,7 +81,7 @@
           if (!res.ok) {
             throw new Error("Failed");
           }
-          res.json();
+          return res.json();
         })
         .then(data => {
           meetups.addMeetup({
@@ -92,9 +90,7 @@
             id: data.name
           });
         })
-        .catch(err => {
-          color.log(err);
-        });
+        .catch(err => console.log(err));
     }
     dispatch("save");
   };
@@ -104,7 +100,16 @@
   };
 
   const deleteMeetup = () => {
-    meetups.removeMeetup(id);
+    fetch(`https://meetups-a2909.firebaseio.com/meetups/${id}.json`, {
+      method: "DELETE"
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("Failed");
+        }
+        meetups.removeMeetup(id);
+      })
+      .catch(err => console.log(err));
     dispatch("save");
   };
 </script>

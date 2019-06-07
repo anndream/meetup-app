@@ -35,7 +35,7 @@
     })
     .catch(err => {
       isLoading = false;
-      color.log(err);
+      console.log(err);
     });
 
   const savedMeetup = event => {
