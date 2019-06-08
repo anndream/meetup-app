@@ -1,10 +1,11 @@
 <script>
   import { createEventDispatcher } from "svelte";
-  import meetups from "./meetups-store.js";
-  import { isEmpty, isValidEmail } from "../helpers/validation.js";
+  import meetups from "../../store/meetups-store.js";
+  import { isEmpty, isValidEmail } from "../../helpers/validation.js";
   import TextInput from "../UI/TextInput.svelte";
   import Button from "../UI/Button.svelte";
   import Modal from "../UI/Modal.svelte";
+
   export let id = null;
   let title = "";
   let subtitle = "";
@@ -12,6 +13,7 @@
   let email = "";
   let description = "";
   let imageUrl = "";
+
   if (id) {
     const unsubscribe = meetups.subscribe(items => {
       const selectedMeetup = items.find(i => i.id === id);
@@ -24,7 +26,9 @@
     });
     unsubscribe();
   }
+
   const dispatch = createEventDispatcher();
+
   $: titleValid = !isEmpty(title);
   $: subtitleValid = !isEmpty(subtitle);
   $: addressValid = !isEmpty(address);
@@ -38,6 +42,7 @@
     emailValid &&
     descriptionValid &&
     imageUrlValid;
+
   const submitForm = () => {
     const meetupData = {
       title,
@@ -84,9 +89,11 @@
     }
     dispatch("save");
   };
+
   const cancel = () => {
     dispatch("cancel");
   };
+
   const deleteMeetup = () => {
     fetch(`https://meetups-a2909.firebaseio.com/meetups/${id}.json`, {
       method: "DELETE"
