@@ -40,20 +40,33 @@
   import Spinner from "../components/UI/Spinner.svelte";
 
   export let fetchedMeetups;
+
+  let loadedMeetups = [];
   let editMode;
   let editedId;
   let isLoading;
+  let unsubscribe;
 
   const dispatch = createEventDispatcher();
 
   let favsOnly = false;
-  let unsubscribe;
 
   $: filteredMeetups = favsOnly
-    ? fetchedMeetups.filter(m => m.isFavorite)
-    : fetchedMeetups;
+    ? loadedMeetups.filter(m => m.isFavorite)
+    : loadedMeetups;
 
-  onMount(() => meetups.setMeetups(fetchedMeetups));
+  onMount(() => {
+    unsubscribe = meetups.subscribe(items => {
+      loadedMeetups = items;
+    });
+    meetups.setMeetups(fetchedMeetups);
+  });
+
+  onDestroy(() => {
+    if (unsubscribe) {
+      unsubscribe();
+    }
+  });
 
   const setFilter = event => {
     favsOnly = event.detail === 1;
@@ -73,6 +86,8 @@
     editMode = "edit";
     editedId = event.detail;
   };
+
+  const startAdd = () => (editMode = "edit");
 </script>
 
 <style>
@@ -110,7 +125,7 @@
 {:else}
   <section class="meetups-controls">
     <MeetupFilter on:select={setFilter} />
-    <Button on:click={() => dispatch('add')}>New Meetup</Button>
+    <Button on:click={startAdd}>New Meetup</Button>
   </section>
   {#if filteredMeetups.length === 0}
     <p class="no-meetups">No meetups found, you can start adding some.</p>
