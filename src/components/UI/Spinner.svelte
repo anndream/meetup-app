@@ -5,7 +5,6 @@
     align-items: center;
     margin: 2rem;
   }
-
   .loading {
     display: inline-block;
     position: relative;

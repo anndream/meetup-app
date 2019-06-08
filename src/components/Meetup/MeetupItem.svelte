@@ -1,11 +1,9 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import meetups from "./meetups-store.js";
-
   import Button from "../UI/Button.svelte";
   import Badge from "../UI/Badge.svelte";
   import Spinner from "../UI/Spinner.svelte";
-
   export let id;
   export let title;
   export let subtitle;
@@ -14,11 +12,8 @@
   export let address;
   export let email;
   export let isFav;
-
   let isLoading = false;
-
   const dispatch = createEventDispatcher();
-
   const toggleFavorite = () => {
     isLoading = true;
     fetch(`https://meetups-a2909.firebaseio.com/meetups/${id}.json`, {
@@ -47,52 +42,43 @@
     background: white;
     margin: 1rem;
   }
-
   header,
   .content,
   footer {
     padding: 1rem;
   }
-
   .image {
     width: 100%;
     height: 14rem;
   }
-
   .image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-
   h1 {
     font-size: 1.25rem;
     margin: 0.5rem 0;
     font-family: "Roboto Slab", sans-serif;
   }
-
   h1.is-favorite {
     background: #01a129;
     color: white;
     padding: 0 0.5rem;
     border-radius: 5px;
   }
-
   h2 {
     font-size: 1rem;
     color: #808080;
     margin: 0.5rem 0;
   }
-
   p {
     font-size: 1.25rem;
     margin: 0;
   }
-
   div {
     text-align: right;
   }
-
   .content {
     height: 4rem;
   }

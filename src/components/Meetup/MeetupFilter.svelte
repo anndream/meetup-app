@@ -1,8 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
-
   const dispatch = createEventDispatcher();
-
   let selectedButton = 0;
 </script>
 
@@ -10,7 +8,6 @@
   div {
     font-size: 0px;
   }
-
   button {
     background: #aaaaaa;
     font: inherit;
@@ -19,19 +16,15 @@
     border: 1px solid #aaaaaa;
     padding: 0.5rem 1rem;
   }
-
   button:focus {
     outline: none;
   }
-
   button:first-of-type {
     border-radius: 5px 0 0 5px;
   }
-
   button:last-of-type {
     border-radius: 0 5px 5px 0;
   }
-
   button:hover,
   button:active,
   .active {
