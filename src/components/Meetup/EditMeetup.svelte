@@ -1,15 +1,12 @@
 <script>
   import { createEventDispatcher } from "svelte";
-
-  import meetups from "./meetups-store.js";
-  import { isEmpty, isValidEmail } from "../helpers/validation.js";
-
+  import meetups from "../../store/meetups-store.js";
+  import { isEmpty, isValidEmail } from "../../helpers/validation.js";
   import TextInput from "../UI/TextInput.svelte";
   import Button from "../UI/Button.svelte";
   import Modal from "../UI/Modal.svelte";
 
   export let id = null;
-
   let title = "";
   let subtitle = "";
   let address = "";
@@ -27,7 +24,6 @@
       description = selectedMeetup.description;
       imageUrl = selectedMeetup.imageUrl;
     });
-
     unsubscribe();
   }
 
@@ -56,7 +52,6 @@
       contactEmail: email,
       address
     };
-
     // meetups.push(newMeetup); // DOES NOT WORK!
     if (id) {
       fetch(`https://meetups-a2909.firebaseio.com/meetups/${id}.json`, {
